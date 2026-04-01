@@ -114,8 +114,11 @@ class Elementor_YT_Feed_Plugin {
 
         if ( is_wp_error( $response ) ) wp_die( 'API Error' );
 
-        $data = json_decode( wp_remote_retrieve_body( $response ) );
-        if ( ! isset( $data->items ) ) wp_die( 'No data returned.' );
+        $body = wp_remote_retrieve_body( $response );
+        $data = json_decode( $body );
+        if ( ! isset( $data->items ) ) {
+            wp_die( 'No data returned. API response: <pre>' . esc_html( $body ) . '</pre>' );
+        }
 
         require_once( ABSPATH . 'wp-admin/includes/media.php' );
         require_once( ABSPATH . 'wp-admin/includes/file.php' );
