@@ -4,6 +4,7 @@
     max-width: 1200px;
     margin: 0 auto;
     font-family: inherit;
+    position: relative;
 }
 
 /* Hero Section */
@@ -71,6 +72,12 @@
 }
 
 /* Carousel Section */
+.yt-carousel-section {
+    position: relative; 
+    /* Padding on sides to ensure arrows don't overlap content too much */
+    padding: 0 30px; 
+}
+
 .yt-carousel-heading {
     margin-bottom: 20px;
     font-size: 20px;
@@ -79,7 +86,8 @@
 }
 
 .yt-swiper {
-    padding-bottom: 40px !important; /* Space for pagination */
+    padding-bottom: 40px !important; /* Space for pagination below */
+    position: relative; /* Ensure it's a positioning context for arrows */
 }
 
 .yt-slide-card {
@@ -136,11 +144,78 @@
     font-size: 12px;
     color: #999;
 }
+/* --- VISIBLE ARROWS (PURE CSS - NO FONTS REQUIRED) --- */
 
-/* Swiper Overrides */
-.swiper-button-next, .swiper-button-prev {
-    color: #cc0000 !important;
+/* 1. The Circle Container */
+.yt-feed-wrapper .swiper-button-next,
+.yt-feed-wrapper .swiper-button-prev {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 99 !important;
+    
+    /* Circle Styling */
+    background-color: #333 !important; /* Dark circle */
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    border: 2px solid #fff !important; /* Added thin white border for visibility */
+    margin-top: 0 !important;
+    
+    /* Flex to center the arrow inside */
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    
+    /* Hide the default font-based icon */
+    background-image: none !important; 
 }
+
+/* 2. Position: Stick them to the edges */
+.yt-feed-wrapper .swiper-button-prev {
+    left: 0 !important;
+}
+
+.yt-feed-wrapper .swiper-button-next {
+    right: 0 !important;
+}
+
+/* 3. Hover Effects */
+.yt-feed-wrapper .swiper-button-next:hover,
+.yt-feed-wrapper .swiper-button-prev:hover {
+    background-color: #cc0000 !important; /* Red on hover */
+    border-color: #cc0000 !important;
+    transform: translateY(-50%) scale(1.1) !important;
+}
+
+/* 4. The Actual Arrow (The Fix) */
+/* We replace the font character with a CSS shape */
+.yt-feed-wrapper .swiper-button-next::after, 
+.yt-feed-wrapper .swiper-button-prev::after {
+    content: '' !important;
+    font-family: inherit !important; /* Disable icon font */
+    width: 12px !important;
+    height: 12px !important;
+    border-top: 3px solid #fff !important;
+    border-right: 3px solid #fff !important;
+    display: block !important;
+}
+
+/* Rotate the shape to point LEFT */
+.yt-feed-wrapper .swiper-button-prev::after {
+    transform: rotate(-135deg) !important;
+    margin-left: 5px !important; /* Visual optical centering */
+}
+
+/* Rotate the shape to point RIGHT */
+.yt-feed-wrapper .swiper-button-next::after {
+    transform: rotate(45deg) !important;
+    margin-right: 5px !important; /* Visual optical centering */
+}
+
+/* Pagination Dots (Keep Red) */
 .swiper-pagination-bullet-active {
     background: #cc0000 !important;
 }

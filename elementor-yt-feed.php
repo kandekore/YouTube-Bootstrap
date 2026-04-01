@@ -137,14 +137,18 @@ class Elementor_YT_Feed_Plugin {
             if ( ! $existing->have_posts() ) {
                 $full_title = sanitize_text_field( $item->snippet->title );
                 
-                // --- Logic: Split Category from Title ---
-                $title_parts = explode( '|', $full_title );
-                $clean_title = trim( $title_parts[0] );
-                
-                // Determine Category
+                // --- Logic: Split Category from Title (supports | or @ as delimiter) ---
                 $cat_name = 'Uncategorised';
-                if ( count( $title_parts ) > 1 ) {
-                    $cat_name = trim( end( $title_parts ) ); // Get the part after the last |
+                if ( strpos( $full_title, '|' ) !== false ) {
+                    $title_parts = explode( '|', $full_title );
+                    $clean_title = trim( $title_parts[0] );
+                    $cat_name = trim( end( $title_parts ) );
+                } elseif ( strpos( $full_title, '@' ) !== false ) {
+                    $title_parts = explode( '@', $full_title );
+                    $clean_title = trim( $title_parts[0] );
+                    $cat_name = trim( end( $title_parts ) );
+                } else {
+                    $clean_title = $full_title;
                 }
 
                 // Prepare Content
