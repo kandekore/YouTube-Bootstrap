@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Elementor YouTube Feed & Importer
  * Description: Fetches YouTube videos, auto-categorizes them based on title (Title | Category), and creates an Elementor Widget with a Hero + Carousel layout.
- * Version: 2.1.1
+ * Version: 2.2.0
  * Author: D Kandekore
  * Text Domain: el-yt-feed
  */
@@ -111,7 +111,7 @@ class Elementor_YT_Feed_Plugin {
      * Admin Menu
      */
     public function add_admin_menu() {
-        add_submenu_page( 'options-general.php', 'YT Feed Settings', 'YT Feed Settings', 'manage_options', 'yt-feed-settings', array( $this, 'settings_page' ) );
+        add_submenu_page( 'edit.php?post_type=yt_video', 'YT Feed Settings', 'Settings', 'manage_options', 'yt-feed-settings', array( $this, 'settings_page' ) );
     }
 
     public function settings_page() {
@@ -173,7 +173,7 @@ class Elementor_YT_Feed_Plugin {
 
         $imported_count = $this->fetch_and_import_videos( $api_key, $channel_id );
 
-        wp_redirect( admin_url( 'options-general.php?page=yt-feed-settings&imported=' . $imported_count ) );
+        wp_redirect( admin_url( 'edit.php?post_type=yt_video&page=yt-feed-settings&imported=' . $imported_count ) );
         exit;
     }
 
