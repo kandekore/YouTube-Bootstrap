@@ -53,7 +53,7 @@ class Elementor_YT_Feed_Plugin {
      */
     public static function activate() {
         if ( ! wp_next_scheduled( 'syi_cron_fetch_videos' ) ) {
-            wp_schedule_event( time(), 'hourly', 'syi_cron_fetch_videos' );
+            wp_schedule_event( time(), 'every_15_minutes', 'syi_cron_fetch_videos' );
         }
     }
 
